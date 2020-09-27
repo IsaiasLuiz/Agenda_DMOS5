@@ -47,10 +47,9 @@ public class NewContactActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-
     @Override
     public void onClick(View v) {
-        if(saveButton == v) {
+        if (saveButton == v) {
             saveContact();
         } else if (cancelButton == v) {
             finish();
@@ -74,15 +73,14 @@ public class NewContactActivity extends AppCompatActivity implements View.OnClic
         String landlinePhone = landlinePhoneEditText.getText().toString();
         String cellPhone = cellPhoneEditText.getText().toString();
 
-        if(name.isEmpty() || landlinePhone.isEmpty() || cellPhone.isEmpty()) {
+        if (name.isEmpty() || landlinePhone.isEmpty() || cellPhone.isEmpty()) {
             throw new EmptyFieldsException();
         }
 
         return new Contact(name, landlinePhone, cellPhone);
     }
 
-
-    private void showSnackbar(String message){
+    private void showSnackbar(String message) {
         Snackbar snackbar;
         ConstraintLayout constraintLayout = findViewById(R.id.new_contact_activity);
         snackbar = Snackbar.make(constraintLayout, message, Snackbar.LENGTH_SHORT);
