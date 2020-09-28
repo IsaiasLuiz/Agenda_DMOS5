@@ -1,24 +1,23 @@
 package br.edu.dmos5.agenda_dmos5.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import java.util.LinkedList;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import br.edu.dmos5.agenda_dmos5.R;
 import br.edu.dmos5.agenda_dmos5.model.Contact;
 import br.edu.dmos5.agenda_dmos5.repository.ContactRepository;
+import br.edu.dmos5.agenda_dmos5.view.adapter.ItemContactAdapter;
+import br.edu.dmos5.agenda_dmos5.view.adapter.RecyclerItemClickListener;
 
 public class ContactActivity extends AppCompatActivity {
 
@@ -26,9 +25,10 @@ public class ContactActivity extends AppCompatActivity {
 
     private ContactRepository contactRepository;
 
-    private ListView listViewContacts;
+    private RecyclerView contactsRecyclerView;
 
-    private ArrayAdapter<Contact> arrayAdapterContact;
+    private ItemContactAdapter contactAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,27 +38,29 @@ public class ContactActivity extends AppCompatActivity {
         contactRepository = new ContactRepository(getApplicationContext());
         contactList = contactRepository.findAll();
 
-        listViewContacts = findViewById(R.id.contacts_list_view);
-        arrayAdapterContact = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contactList);
-        listViewContacts.setAdapter(arrayAdapterContact);
+        contactsRecyclerView = findViewById(R.id.contacts_recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        contactsRecyclerView.setLayoutManager(layoutManager);
 
-        listViewContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                    @Override
-                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                        Contact contact = contactList.get(position);
-                                                        Intent intent = new Intent(getApplicationContext(), ContactDetailsActivity.class);
-                                                        intent.putExtra(Contact.CONTACT_KEY, contact);
-                                                        startActivity(intent);
-                                                    }
-                                                }
-        );
+        contactAdapter = new ItemContactAdapter(contactList);
+        contactsRecyclerView.setAdapter(contactAdapter);
 
+        contactAdapter.setClickListener(new RecyclerItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Contact contact = contactList.get(position);
+                Intent intent = new Intent(getApplicationContext(), ContactDetailsActivity.class);
+                intent.putExtra(Contact.CONTACT_KEY, contact);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         contactList.clear();
         contactList.addAll(contactRepository.findAll());
+        contactAdapter.notifyDataSetChanged();
         super.onResume();
     }
 
