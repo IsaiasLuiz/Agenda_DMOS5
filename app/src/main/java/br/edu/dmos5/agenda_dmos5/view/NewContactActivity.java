@@ -1,5 +1,6 @@
 package br.edu.dmos5.agenda_dmos5.view;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,12 +9,12 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import br.edu.dmos5.agenda_dmos5.R;
 import br.edu.dmos5.agenda_dmos5.model.Contact;
 import br.edu.dmos5.agenda_dmos5.model.exceptions.EmptyFieldsException;
 import br.edu.dmos5.agenda_dmos5.repository.ContactRepository;
+
+import static br.edu.dmos5.agenda_dmos5.utils.SnackbarUtils.showSnackbar;
 
 public class NewContactActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -57,14 +58,15 @@ public class NewContactActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void saveContact() {
+        ConstraintLayout layout = findViewById(R.id.new_contact_activity);
         try {
             Contact contact = getContactByFieldsValues();
             contactRepository.save(contact);
             finish();
         } catch (EmptyFieldsException e) {
-            showSnackbar(getString(R.string.empty_fields_error));
+            showSnackbar(getString(R.string.empty_fields_error), layout);
         } catch (Exception e) {
-            showSnackbar(getString(R.string.default_error));
+            showSnackbar(getString(R.string.default_error), layout);
         }
     }
 
@@ -77,14 +79,10 @@ public class NewContactActivity extends AppCompatActivity implements View.OnClic
             throw new EmptyFieldsException();
         }
 
-        return new Contact(name, landlinePhone, cellPhone);
-    }
+        SharedPreferences mSharedPreferences = this.getPreferences(MODE_PRIVATE);
+        mSharedPreferences = this.getSharedPreferences(getString(R.string.file_preferences), MODE_PRIVATE);
 
-    private void showSnackbar(String message) {
-        Snackbar snackbar;
-        ConstraintLayout constraintLayout = findViewById(R.id.new_contact_activity);
-        snackbar = Snackbar.make(constraintLayout, message, Snackbar.LENGTH_SHORT);
-        snackbar.show();
+        return new Contact(name, landlinePhone, cellPhone, mSharedPreferences.getString(getString(R.string.key_logged_user), ""));
     }
 
 }

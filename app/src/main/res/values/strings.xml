@@ -7,4 +7,19 @@
     <string name="save_text">Salvar</string>
     <string name="empty_fields_error">Preencha os campos corretamente!</string>
     <string name="default_error">Aconteceu um erro inesperado!</string>
+    <string name="password_text">Senha</string>
+    <string name="new_user_register_text">Cadastrar novo usuário</string>
+    <string name="login_text">Entrar</string>
+    <string name="email_text">Email</string>
+    <string name="remember_login">Lembrar de mim</string>
+    <string name="file_preferences">loginlocal.preferencias</string>
+    <string name="key_user">USER</string>
+    <string name="key_password">PASSWORD</string>
+    <string name="key_remember">REMEMBER</string>
+    <string name="key_logged_user">LOGGED_USER</string>
+    <string name="clear_fields_text">Limpar todos os campos</string>
+    <string name="invalid_credencials_error">Valide suas credenciais!</string>
+    <string name="key_first_user">first_user_registered</string>
+    <string name="user_saved_msg">Usuário cadastrado, faça login para continuar</string>
+    <string name="user_already_registered_error">Usuário já cadastrado!</string>
 </resources>
