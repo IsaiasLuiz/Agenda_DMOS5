@@ -18,16 +18,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import br.edu.dmos5.agenda_dmos5.R;
-import br.edu.dmos5.agenda_dmos5.model.Contact;
-import br.edu.dmos5.agenda_dmos5.repository.ContactRepository;
+import br.edu.dmos5.agenda_dmos5.model.ContactV2;
+import br.edu.dmos5.agenda_dmos5.repository.ContactV2Repository;
 import br.edu.dmos5.agenda_dmos5.view.adapter.ItemContactAdapter;
 import br.edu.dmos5.agenda_dmos5.view.adapter.RecyclerItemClickListener;
 
 public class ContactActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private List<Contact> contactList;
+    private List<String> contactsNameList;
 
-    private ContactRepository contactRepository;
+    private ContactV2Repository contactV2Repository;
 
     private RecyclerView contactsRecyclerView;
 
@@ -53,22 +53,22 @@ public class ContactActivity extends AppCompatActivity implements View.OnClickLi
         buttonExit = findViewById(R.id.exit);
         buttonExit.setOnClickListener(this);
 
-        contactRepository = new ContactRepository(getApplicationContext());
-        contactList = contactRepository.findAll(loggedUser);
+        contactV2Repository = new ContactV2Repository(getApplicationContext());
+        contactsNameList = contactV2Repository.findContactsNameByUserId(loggedUser);
 
         contactsRecyclerView = findViewById(R.id.contacts_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         contactsRecyclerView.setLayoutManager(layoutManager);
 
-        contactAdapter = new ItemContactAdapter(contactList);
+        contactAdapter = new ItemContactAdapter(contactsNameList);
         contactsRecyclerView.setAdapter(contactAdapter);
 
         contactAdapter.setClickListener(new RecyclerItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Contact contact = contactList.get(position);
+                String contactName = contactsNameList.get(position);
                 Intent intent = new Intent(getApplicationContext(), ContactDetailsActivity.class);
-                intent.putExtra(Contact.CONTACT_KEY, contact);
+                intent.putExtra(ContactV2.CONTACT_NAME_KEY, contactName);
                 startActivity(intent);
             }
         });
@@ -76,8 +76,8 @@ public class ContactActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     protected void onResume() {
-        contactList.clear();
-        contactList.addAll(contactRepository.findAll(loggedUser));
+        contactsNameList.clear();
+        contactsNameList.addAll(contactV2Repository.findContactsNameByUserId(loggedUser));
         contactAdapter.notifyDataSetChanged();
         super.onResume();
     }

@@ -104,6 +104,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
         } catch (EmptyFieldsException e) {
             showSnackbar(getString(R.string.empty_fields_error), layout);
         } catch (Exception e) {
+            e.printStackTrace();
             showSnackbar(getString(R.string.default_error), layout);
         }
 

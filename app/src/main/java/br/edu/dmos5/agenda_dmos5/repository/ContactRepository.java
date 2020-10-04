@@ -13,6 +13,7 @@ import br.edu.dmos5.agenda_dmos5.model.Contact;
 import br.edu.dmos5.agenda_dmos5.model.User;
 import br.edu.dmos5.agenda_dmos5.repository.sql.ContactSQL;
 
+@Deprecated
 public class ContactRepository {
 
     private SQLiteDatabase sqLiteDatabase;

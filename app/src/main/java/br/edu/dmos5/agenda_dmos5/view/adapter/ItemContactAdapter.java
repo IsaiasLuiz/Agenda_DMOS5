@@ -11,16 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import br.edu.dmos5.agenda_dmos5.R;
-import br.edu.dmos5.agenda_dmos5.model.Contact;
 
 public class ItemContactAdapter extends RecyclerView.Adapter<ItemContactAdapter.ContactsViewHolder> {
 
-    private List<Contact> contactsList;
+    private List<String> contactsNameList;
 
     private static RecyclerItemClickListener clickListener;
 
-    public ItemContactAdapter(List<Contact> contactsList) {
-        this.contactsList = contactsList;
+    public ItemContactAdapter(List<String> contactsNameList) {
+        this.contactsNameList = contactsNameList;
     }
 
     public void setClickListener(RecyclerItemClickListener clickListener) {
@@ -38,12 +37,12 @@ public class ItemContactAdapter extends RecyclerView.Adapter<ItemContactAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ContactsViewHolder holder, final int position) {
-        holder.nameTextView.setText(contactsList.get(position).getFullName());
+        holder.nameTextView.setText(contactsNameList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return contactsList.size();
+        return contactsNameList.size();
     }
 
     public static class ContactsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

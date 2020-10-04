@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.ItemContactDetailsActivity"></activity>
         <activity android:name=".view.NewUserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +19,7 @@
         </activity>
         <activity android:name=".view.ContactDetailsActivity" />
         <activity android:name=".view.NewContactActivity" />
-    <activity android:name=".view.ContactActivity" />
+        <activity android:name=".view.ContactActivity" />
     </application>
 
 </manifest>

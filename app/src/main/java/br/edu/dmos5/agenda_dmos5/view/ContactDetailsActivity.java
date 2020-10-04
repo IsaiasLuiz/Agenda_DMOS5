@@ -1,7 +1,11 @@
 package br.edu.dmos5.agenda_dmos5.view;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -9,15 +13,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.edu.dmos5.agenda_dmos5.R;
-import br.edu.dmos5.agenda_dmos5.model.Contact;
+import br.edu.dmos5.agenda_dmos5.model.ContactItemType;
+import br.edu.dmos5.agenda_dmos5.model.ContactV2;
+import br.edu.dmos5.agenda_dmos5.model.ItemContactDetails;
 
-public class ContactDetailsActivity extends AppCompatActivity {
+import static br.edu.dmos5.agenda_dmos5.model.ItemContactDetails.ITEM_CONTACT_DETAILS_KEY;
+
+public class ContactDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView nameTextView;
 
-    private TextView landlinePhoneTextView;
+    private Button btnShowCells;
 
-    private TextView cellPhoneTextView;
+    private Button btnShowLandlines;
+
+    private Button btnShowEmails;
+
+    private SharedPreferences mSharedPreferences;
+
+    private String loggedUser;
+
+    private String contactName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +42,19 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        nameTextView = findViewById(R.id.contact_details_name_text_view_2);
-        landlinePhoneTextView = findViewById(R.id.contact_details_landline_phone__text_view_2);
-        cellPhoneTextView = findViewById(R.id.contact_details_cell_phone__text_view_2);
+        mSharedPreferences = this.getPreferences(MODE_PRIVATE);
+        mSharedPreferences = this.getSharedPreferences(getString(R.string.file_preferences), MODE_PRIVATE);
+
+        loggedUser = mSharedPreferences.getString(getString(R.string.key_logged_user), "");
+
+        nameTextView = findViewById(R.id.contact_details_name_text_view);
+
+        btnShowCells = findViewById(R.id.show_cell_phones);
+        btnShowCells.setOnClickListener(this);
+        btnShowLandlines = findViewById(R.id.show_landline_phones);
+        btnShowLandlines.setOnClickListener(this);
+        btnShowEmails = findViewById(R.id.show_emails);
+        btnShowEmails.setOnClickListener(this);
 
         extractData();
 
@@ -49,11 +75,27 @@ public class ContactDetailsActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.default_error, Toast.LENGTH_SHORT);
             finish();
         }
-        Contact contact = (Contact) bundle.get(Contact.CONTACT_KEY);
-
-        nameTextView.setText(contact.getFullName());
-        landlinePhoneTextView.setText(contact.getLandlinePhone());
-        cellPhoneTextView.setText(contact.getCellPhone());
+        contactName = bundle.getString(ContactV2.CONTACT_NAME_KEY);
+        nameTextView.setText(contactName);
     }
 
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(this, ItemContactDetailsActivity.class);
+
+        if (v == btnShowCells) {
+            ItemContactDetails itemContactDetails = new ItemContactDetails(contactName, ContactItemType.CELLPHONE, loggedUser);
+            intent.putExtra(ITEM_CONTACT_DETAILS_KEY, itemContactDetails);
+
+        } else if(v == btnShowLandlines) {
+            ItemContactDetails itemContactDetails = new ItemContactDetails(contactName, ContactItemType.LANDLINEPHONE, loggedUser);
+            intent.putExtra(ITEM_CONTACT_DETAILS_KEY, itemContactDetails);
+
+        } else if(v == btnShowEmails) {
+            ItemContactDetails itemContactDetails = new ItemContactDetails(contactName, ContactItemType.EMAIL, loggedUser);
+            intent.putExtra(ITEM_CONTACT_DETAILS_KEY, itemContactDetails);
+
+        }
+        startActivity(intent);
+    }
 }

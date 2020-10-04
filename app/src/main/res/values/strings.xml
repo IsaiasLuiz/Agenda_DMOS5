@@ -22,4 +22,12 @@
     <string name="key_first_user">first_user_registered</string>
     <string name="user_saved_msg">Usuário cadastrado, faça login para continuar</string>
     <string name="user_already_registered_error">Usuário já cadastrado!</string>
+    <string name="cell_phones_text">Ver Celulares</string>
+    <string name="landline_phones_text">Ver Telefones Fixos</string>
+    <string name="emails_text">Ver Emails</string>
+    <string name="empty_contact_data_msg">Sem Dados para o contato</string>
+    <string name="contact_data_msg">Dados para o contato</string>
+    <string name="empty_contact_items_error">Preencha ao menos um contato!</string>
+    <string name="empty_name_error">Preencha o campo de nome!</string>
+    <string name="duplicated_field_error">Já existe um contato com esse dado!</string>
 </resources>
