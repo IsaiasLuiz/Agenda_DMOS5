@@ -80,10 +80,10 @@ public class ItemContactAdapter extends RecyclerView.Adapter<ItemContactAdapter.
         holder.editImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.nameTextView.setVisibility(View.INVISIBLE);
-                holder.editImageView.setVisibility(View.INVISIBLE);
-                holder.deleteImage.setVisibility(View.INVISIBLE);
-                holder.favoriteImage.setVisibility(View.INVISIBLE);
+                holder.nameTextView.setVisibility(View.GONE);
+                holder.editImageView.setVisibility(View.GONE);
+                holder.deleteImage.setVisibility(View.GONE);
+                holder.favoriteImage.setVisibility(View.GONE);
                 holder.valueEditText.setText(contactsNameList.get(position));
                 holder.valueEditText.setVisibility(View.VISIBLE);
                 holder.saveButton.setVisibility(View.VISIBLE);
@@ -102,8 +102,8 @@ public class ItemContactAdapter extends RecyclerView.Adapter<ItemContactAdapter.
                     holder.favoriteImage.setVisibility(View.VISIBLE);
                     holder.deleteImage.setVisibility(View.VISIBLE);
                     holder.editImageView.setVisibility(View.VISIBLE);
-                    holder.valueEditText.setVisibility(View.INVISIBLE);
-                    holder.saveButton.setVisibility(View.INVISIBLE);
+                    holder.valueEditText.setVisibility(View.GONE);
+                    holder.saveButton.setVisibility(View.GONE);
                     notifyDataSetChanged();
                 } else {
                     Toast.makeText(context, R.string.empty_fields_error, Toast.LENGTH_SHORT);

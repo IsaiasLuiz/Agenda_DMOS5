@@ -38,7 +38,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default"
-        android:visibility="invisible"
+        android:visibility="gone"
+
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -48,7 +49,7 @@
         android:layout_height="wrap_content"
         android:text="@string/save_text"
         android:background="@color/colorPrimary"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:layout_margin="@dimen/margin_default"
         app:layout_constraintTop_toBottomOf="@id/list_item_contact_et"
         app:layout_constraintLeft_toLeftOf="parent"/>
