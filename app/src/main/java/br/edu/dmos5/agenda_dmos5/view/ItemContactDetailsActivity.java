@@ -1,24 +1,21 @@
 package br.edu.dmos5.agenda_dmos5.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import br.edu.dmos5.agenda_dmos5.R;
 import br.edu.dmos5.agenda_dmos5.model.ContactItem;
-import br.edu.dmos5.agenda_dmos5.model.ContactItemType;
 import br.edu.dmos5.agenda_dmos5.model.ItemContactDetails;
 import br.edu.dmos5.agenda_dmos5.repository.ContactItemRepository;
-import br.edu.dmos5.agenda_dmos5.view.adapter.ItemContactAdapter;
 import br.edu.dmos5.agenda_dmos5.view.adapter.ItemContactDetailsAdapter;
 
 import static br.edu.dmos5.agenda_dmos5.model.ItemContactDetails.ITEM_CONTACT_DETAILS_KEY;
@@ -39,7 +36,6 @@ public class ItemContactDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         showData();
-
 
     }
 
@@ -68,8 +64,11 @@ public class ItemContactDetailsActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         contactsRecyclerView.setLayoutManager(layoutManager);
 
-        itemAdapter = new ItemContactDetailsAdapter(items);
+        itemAdapter = new ItemContactDetailsAdapter(items, this,contactDetails.getUserId(), contactDetails.getFullName());
         contactsRecyclerView.setAdapter(itemAdapter);
+
+
+
     }
 
     @Override

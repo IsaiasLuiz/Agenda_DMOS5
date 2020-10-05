@@ -59,4 +59,26 @@ public class ContactItemRepository {
         return contactItems;
     }
 
+    public void update(String userId, String contactName, ContactItemType type, String newValue) {
+        sqLiteDatabase = sqlLiteHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ContactItemSQL.VALUE_COLUMN, newValue);
+
+        String where = "EXISTS (SELECT * FROM CONTACT_V2 C, CONTACT_ITEM CI WHERE C.USER_ID = ? AND C.NAME = ? AND C.CONTACT_ID = CI.CONTACT_ID AND CI.TYPE = ?);";
+
+        sqLiteDatabase.update(ContactItemSQL.CONTACT_ITEM_TABLE, values, where, new String[]{userId, contactName, type.toString()});
+        sqLiteDatabase.close();
+    }
+
+    public void delete(String userId, String contactName, ContactItemType type, String value) {
+        sqLiteDatabase = sqlLiteHelper.getWritableDatabase();
+
+
+        String where = "CONTACT_ID IN (SELECT C.CONTACT_ID FROM CONTACT_V2 C WHERE C.USER_ID = ? AND C.NAME = ?) AND VALUE = ? AND TYPE = ?;";
+
+        sqLiteDatabase.delete(ContactItemSQL.CONTACT_ITEM_TABLE, where, new String[]{userId, contactName, value, type.toString()});
+        sqLiteDatabase.close();
+    }
+
 }

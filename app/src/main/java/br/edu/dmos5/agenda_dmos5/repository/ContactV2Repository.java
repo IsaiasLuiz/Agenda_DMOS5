@@ -20,6 +20,8 @@ public class ContactV2Repository {
 
     private SQLiteHelper sqlLiteHelper;
 
+    private static final String USER_ID_AND_NAME_WHERE = "upper(" + ContactV2SQL.USER_ID_COLUMN + ") = upper(?) and upper(" + ContactV2SQL.NAME_COLUMN + ") = upper(?);";
+
     private Context context;
 
     public ContactV2Repository(Context context) {
@@ -42,7 +44,7 @@ public class ContactV2Repository {
                 ContactV2SQL.NAME_COLUMN
         };
 
-        String sortOrder = ContactV2SQL.NAME_COLUMN + " COLLATE NOCASE ASC";
+        String sortOrder = ContactV2SQL.FAVORITE_COLUMN + " DESC, " + ContactV2SQL.NAME_COLUMN + " COLLATE NOCASE ASC";
         String where = "upper(" + ContactV2SQL.USER_ID_COLUMN + ") = upper(?)";
         String args[] = new String[]{userId};
 
@@ -100,9 +102,7 @@ public class ContactV2Repository {
                 ContactV2SQL.CONTACT_ID_COLUMN
         };
 
-        String where = "upper(" + ContactV2SQL.USER_ID_COLUMN + ") = upper(?) and upper(" + ContactV2SQL.NAME_COLUMN + ") = upper(?);";
-
-        Cursor cursor = sqLiteDatabase.query(ContactV2SQL.CONTACT_V2_TABLE, columns, where, new String[]{userId, name}, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(ContactV2SQL.CONTACT_V2_TABLE, columns, USER_ID_AND_NAME_WHERE, new String[]{userId, name}, null, null, null);
 
         if (cursor.moveToNext()) {
             sqLiteDatabase.close();
@@ -122,9 +122,7 @@ public class ContactV2Repository {
                 ContactV2SQL.CONTACT_ID_COLUMN
         };
 
-        String where = "upper(" + ContactV2SQL.USER_ID_COLUMN + ") = upper(?) and upper(" + ContactV2SQL.NAME_COLUMN + ") = upper(?);";
-
-        Cursor cursor = sqLiteDatabase.query(ContactV2SQL.CONTACT_V2_TABLE, columns, where, new String[]{userId, contact.getFullName()}, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(ContactV2SQL.CONTACT_V2_TABLE, columns, USER_ID_AND_NAME_WHERE, new String[]{userId, contact.getFullName()}, null, null, null);
 
         cursor.moveToNext();
 
@@ -138,6 +136,65 @@ public class ContactV2Repository {
         for (ContactItem item : contact.getContactItems()) {
             contactItemRepository.save(Integer.parseInt(contactId.toString()), item);
         }
+    }
+
+    public void favoriteContact(String userId, String name) {
+        if (userId == null || name == null) {
+            throw new NullPointerException();
+        }
+        ContentValues values = new ContentValues();
+        values.put(ContactV2SQL.FAVORITE_COLUMN, isFavorite(userId, name) ? ContactV2SQL.NOT_FAVORITE : ContactV2SQL.IS_FAVORITE);
+
+        sqLiteDatabase = sqlLiteHelper.getWritableDatabase();
+
+        sqLiteDatabase.update(ContactV2SQL.CONTACT_V2_TABLE, values, USER_ID_AND_NAME_WHERE, new String[]{userId, name});
+
+        sqLiteDatabase.close();
+    }
+
+    public boolean isFavorite(String userId, String name) {
+        if (userId == null || name == null) {
+            throw new NullPointerException();
+        }
+
+        sqLiteDatabase = sqlLiteHelper.getReadableDatabase();
+
+        Cursor cursor = sqLiteDatabase.query(ContactV2SQL.CONTACT_V2_TABLE, new String[]{ContactV2SQL.FAVORITE_COLUMN}, USER_ID_AND_NAME_WHERE, new String[]{userId, name}, null, null, null);
+
+        cursor.moveToNext();
+
+        int value = cursor.getInt(0);
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return value == ContactV2SQL.IS_FAVORITE;
+    }
+
+    public void delete(String userId, String name) {
+        if (userId == null || name == null) {
+            throw new NullPointerException();
+        }
+
+        sqLiteDatabase = sqlLiteHelper.getWritableDatabase();
+
+        sqLiteDatabase.delete(ContactV2SQL.CONTACT_V2_TABLE, USER_ID_AND_NAME_WHERE, new String[]{userId, name});
+
+        sqLiteDatabase.close();
+    }
+
+    public void update(String userId, String name) {
+        if (userId == null || name == null) {
+            throw new NullPointerException();
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(ContactV2SQL.NAME_COLUMN, name);
+
+        sqLiteDatabase = sqlLiteHelper.getWritableDatabase();
+
+        sqLiteDatabase.update(ContactV2SQL.CONTACT_V2_TABLE, values, USER_ID_AND_NAME_WHERE, new String[]{userId, name});
+
+        sqLiteDatabase.close();
     }
 
 }

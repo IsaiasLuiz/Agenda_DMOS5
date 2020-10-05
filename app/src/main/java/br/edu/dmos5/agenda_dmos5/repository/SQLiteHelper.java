@@ -20,7 +20,7 @@ import br.edu.dmos5.agenda_dmos5.repository.sql.UserSQL;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
     public static final String DATABASE_NAME = "phonebook.db";
 
@@ -36,6 +36,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(ContactV2SQL.CONTACT_V2_CREATE_TABLE);
         sqLiteDatabase.execSQL(UserSQL.USER_CREATE_TABLE);
         sqLiteDatabase.execSQL(ContactItemSQL.CONTACT_ITEM_CREATE_TABLE);
+        sqLiteDatabase.execSQL(ContactV2SQL.ADD_FAVORITE_COLUMN);
     }
 
     @Override
@@ -51,6 +52,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 db.execSQL(ContactItemSQL.CONTACT_ITEM_CREATE_TABLE);
                 migrateContacts(db);
                 db.execSQL(ContactSQL.CONTACT_DROP_TABLE);
+                break;
+            case 4:
+                db.execSQL(ContactV2SQL.ADD_FAVORITE_COLUMN);
                 break;
         }
     }

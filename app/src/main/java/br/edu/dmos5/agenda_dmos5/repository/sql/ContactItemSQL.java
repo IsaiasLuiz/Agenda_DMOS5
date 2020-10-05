@@ -15,7 +15,7 @@ public abstract class ContactItemSQL {
 
     public static final String CONTACT_ITEM_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTACT_ITEM_TABLE + " ("
             + TYPE_COLUMN + " TEXT NOT NULL, "
-            + VALUE_COLUMN + " TEXT NOT NULL, "
+            + VALUE_COLUMN + " TEXT NOT NULL DEFERRABLE INITIALLY DEFERRED, "
             + CONTACT_ID_COLUMN + " INTEGER NOT NULL, FOREIGN KEY(" + CONTACT_ID_COLUMN + ") REFERENCES " + CONTACT_V2_TABLE + "(" + CONTACT_ID_COLUMN + ") ON DELETE CASCADE,"
             + " PRIMARY KEY(" + VALUE_COLUMN + ", " + CONTACT_ID_COLUMN + ", " + TYPE_COLUMN + ")); ";
 

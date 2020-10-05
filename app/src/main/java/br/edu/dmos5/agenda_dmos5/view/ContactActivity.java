@@ -60,7 +60,7 @@ public class ContactActivity extends AppCompatActivity implements View.OnClickLi
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         contactsRecyclerView.setLayoutManager(layoutManager);
 
-        contactAdapter = new ItemContactAdapter(contactsNameList);
+        contactAdapter = new ItemContactAdapter(contactsNameList, this, loggedUser);
         contactsRecyclerView.setAdapter(contactAdapter);
 
         contactAdapter.setClickListener(new RecyclerItemClickListener() {

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/list_item_name"
+        android:id="@+id/list_item_contact_details_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
@@ -15,52 +15,42 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/item_list_favorite"
+        android:id="@+id/list_item_contact_details_iv_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_not_favorite"
-        android:layout_marginTop="@dimen/margin_default"
-        android:layout_marginRight="30dp"
-        app:layout_constraintEnd_toStartOf="@id/list_item_iv"
+        android:src="@drawable/ic_delete"
+        android:layout_margin="@dimen/margin_default"
+        app:layout_constraintEnd_toStartOf="@id/list_item_contact_details_iv"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
-        android:id="@+id/list_item_iv"
+        android:id="@+id/list_item_contact_details_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_edit_contact_accent"
+        android:src="@drawable/ic_edit_contact"
         android:layout_margin="@dimen/margin_default"
-        app:layout_constraintEnd_toStartOf="@id/item_list_delete"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-        android:id="@+id/list_item_contact_et"
+        android:id="@+id/list_item_contact_details_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/list_item_btn"
+        android:id="@+id/list_item_contact_details_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save_text"
         android:background="@color/colorPrimary"
         android:visibility="invisible"
         android:layout_margin="@dimen/margin_default"
-        app:layout_constraintTop_toBottomOf="@id/list_item_contact_et"
+        app:layout_constraintTop_toBottomOf="@+id/list_item_contact_details_et"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <ImageView
-        android:id="@+id/item_list_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_delete_red"
-        android:layout_marginTop="@dimen/margin_default"
-        android:layout_marginRight="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

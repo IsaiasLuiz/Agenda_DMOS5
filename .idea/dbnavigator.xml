@@ -23,11 +23,17 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="f62ddef5-0840-47ee-9169-7e192e37b1f6">
+        <schema name="main" object-types="view, table, column" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f62ddef5-0840-47ee-9169-7e192e37b1f6">
-      <console name="Connection" type="STANDARD" schema="main" session="Main" />
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from contact_v2;
+
+UPDATE CONTACT_ITEM SET VALUE = '7666' from contact_v2 c, contact_item ci WHERE  c.user_id = 'isaias' AND c.NAME = 'teste' AND c.CONTACT_ID = ci.CONTACT_ID AND ci.TYPE = 'CELLPHONE';]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

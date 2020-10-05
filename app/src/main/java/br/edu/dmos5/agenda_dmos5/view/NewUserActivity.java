@@ -117,7 +117,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
             userRepository.save(user);
             boolean isFirst = mSharedPreferences.getBoolean(getString(R.string.key_first_user), true);
             if (isFirst) {
-                contactRepository.updateByFirstUser(user);
+//                contactRepository.updateByFirstUser(user);
                 mEditor.putBoolean(getString(R.string.key_first_user), false);
                 mEditor.commit();
             }
