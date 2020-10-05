@@ -1,5 +1,7 @@
 package br.edu.dmos5.agenda_dmos5.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -14,9 +16,11 @@ import java.util.List;
 
 import br.edu.dmos5.agenda_dmos5.R;
 import br.edu.dmos5.agenda_dmos5.model.ContactItem;
+import br.edu.dmos5.agenda_dmos5.model.ContactItemType;
 import br.edu.dmos5.agenda_dmos5.model.ItemContactDetails;
 import br.edu.dmos5.agenda_dmos5.repository.ContactItemRepository;
 import br.edu.dmos5.agenda_dmos5.view.adapter.ItemContactDetailsAdapter;
+import br.edu.dmos5.agenda_dmos5.view.adapter.RecyclerItemClickListener;
 
 import static br.edu.dmos5.agenda_dmos5.model.ItemContactDetails.ITEM_CONTACT_DETAILS_KEY;
 
@@ -50,9 +54,9 @@ public class ItemContactDetailsActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.contacts_item_details_text_view);
 
-        ItemContactDetails contactDetails = (ItemContactDetails) bundle.get(ITEM_CONTACT_DETAILS_KEY);
+        final ItemContactDetails contactDetails = (ItemContactDetails) bundle.get(ITEM_CONTACT_DETAILS_KEY);
 
-        List<ContactItem> items = repository.findByUserIdAndContactNameAndType(contactDetails.getUserId(), contactDetails.getFullName(), contactDetails.getType().toString());
+        final List<ContactItem> items = repository.findByUserIdAndContactNameAndType(contactDetails.getUserId(), contactDetails.getFullName(), contactDetails.getType().toString());
 
         if (items.size() > 0) {
             textView.setText(getString(R.string.contact_data_msg) + " " + contactDetails.getFullName());
@@ -67,7 +71,20 @@ public class ItemContactDetailsActivity extends AppCompatActivity {
         itemAdapter = new ItemContactDetailsAdapter(items, this,contactDetails.getUserId(), contactDetails.getFullName());
         contactsRecyclerView.setAdapter(itemAdapter);
 
-
+        itemAdapter.setClickListener(new RecyclerItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (contactDetails.getType().equals(ContactItemType.CELLPHONE) || contactDetails.getType().equals(ContactItemType.LANDLINEPHONE)) {
+                    Uri uri = Uri.parse("tel:"+ items.get(position).getValue());
+                    Intent intent = new Intent(Intent.ACTION_DIAL,uri);
+                    startActivity(intent);
+                } else {
+                    Uri uri = Uri.parse("mailto:" + items.get(position).getValue());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+            }
+        });
 
     }
 
