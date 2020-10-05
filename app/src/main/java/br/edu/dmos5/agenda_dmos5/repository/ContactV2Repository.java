@@ -182,18 +182,17 @@ public class ContactV2Repository {
         sqLiteDatabase.close();
     }
 
-    public void update(String userId, String name) {
+    public void update(String userId, String name, String newValue) {
         if (userId == null || name == null) {
             throw new NullPointerException();
         }
 
         ContentValues values = new ContentValues();
-        values.put(ContactV2SQL.NAME_COLUMN, name);
+        values.put(ContactV2SQL.NAME_COLUMN, newValue);
 
         sqLiteDatabase = sqlLiteHelper.getWritableDatabase();
 
-        sqLiteDatabase.update(ContactV2SQL.CONTACT_V2_TABLE, values, USER_ID_AND_NAME_WHERE, new String[]{userId, name});
-
+        System.out.println(sqLiteDatabase.update(ContactV2SQL.CONTACT_V2_TABLE, values, USER_ID_AND_NAME_WHERE, new String[]{userId, name}));
         sqLiteDatabase.close();
     }
 

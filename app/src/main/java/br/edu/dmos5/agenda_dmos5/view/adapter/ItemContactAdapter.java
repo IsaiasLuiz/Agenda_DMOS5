@@ -95,9 +95,9 @@ public class ItemContactAdapter extends RecyclerView.Adapter<ItemContactAdapter.
             public void onClick(View v) {
                 String newValue = holder.valueEditText.getText().toString();
                 if (!newValue.isEmpty()) {
-                    repository.update(userLogged, contactsNameList.get(position));
-                    String s = contactsNameList.get(position);
-                    s = newValue;
+                    repository.update(userLogged, contactsNameList.get(position), newValue);
+                    contactsNameList.remove(position);
+                    contactsNameList.add(position, newValue);
                     holder.nameTextView.setVisibility(View.VISIBLE);
                     holder.favoriteImage.setVisibility(View.VISIBLE);
                     holder.deleteImage.setVisibility(View.VISIBLE);
